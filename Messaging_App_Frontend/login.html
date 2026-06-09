@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Chat App</title>
+    <style>
+        :root {
+            --accent: #2b7cff;
+            --muted: #f4f6fb;
+            --surface: #ffffff;
+            --border: #d9e2ec;
+            --text: #121828;
+            --muted-text: #667085;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            margin: 0;
+            min-height: 100%;
+            font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
+            background: linear-gradient(180deg, #f7f9ff 0%, var(--muted) 100%);
+            color: var(--text);
+        }
+
+        body {
+            display: grid;
+            place-items: center;
+            padding: 24px;
+        }
+
+        .auth-card {
+            width: min(480px, 100%);
+            background: var(--surface);
+            border: 1px solid #e8edf7;
+            border-radius: 24px;
+            box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+            padding: 36px 32px;
+        }
+
+        .auth-card h1 {
+            margin: 0 0 12px;
+            font-size: 28px;
+            letter-spacing: -0.02em;
+        }
+
+        .auth-card p.subtitle {
+            margin: 0 0 28px;
+            color: var(--muted-text);
+            line-height: 1.7;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            color: #344054;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: #fff;
+            font-size: 15px;
+            color: var(--text);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(43, 124, 255, 0.12);
+        }
+
+        .primary-button {
+            width: 100%;
+            padding: 14px 16px;
+            border: none;
+            border-radius: 14px;
+            background: var(--accent);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .primary-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 30px rgba(43, 124, 255, 0.24);
+        }
+
+        .status-message {
+            min-height: 22px;
+            margin: 0 0 16px;
+            color: #f04438;
+            font-size: 14px;
+        }
+
+        .auth-footer {
+            margin-top: 16px;
+            font-size: 14px;
+            color: var(--muted-text);
+            text-align: center;
+        }
+
+        .auth-footer a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 520px) {
+            .auth-card {
+                padding: 28px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-card">
+        <h1>Welcome back</h1>
+        <p class="subtitle">Sign in to access your conversations and continue chatting with your contacts.</p>
+
+        <div class="form-group">
+            <label for="input-email">Email address</label>
+            <input type="email" name="email" id="input-email" placeholder="you@example.com">
+        </div>
+
+        <div class="form-group">
+            <label for="input-password">Password</label>
+            <input type="password" name="password" id="input-password" placeholder="Enter your password">
+        </div>
+
+        <button id="button-submit" class="primary-button">Log in</button>
+        <p id="login-status" class="status-message"></p>
+
+        <div class="auth-footer">
+            New here? <a href="signup.html">Create an account</a>
+        </div>
+    </div>
+
+    <script>
+        const queryString = window.location.search;
+        const params = new URLSearchParams(queryString);
+        const status = params.get("status");
+
+        if (status) {
+            const loginStatus = document.getElementById("login-status");
+            switch (status) {
+                case "401":
+                    loginStatus.innerText = "Session expired or unauthorized. Please log in again.";
+                    break;
+                case "403":
+                    loginStatus.innerText = "Invalid token. Please log in again.";
+                    break;
+                case "404":
+                    loginStatus.innerText = "User doesn't exist. Create a new account.";
+                    break;
+                default:
+                    loginStatus.innerText = "Unable to sign in. Please check your credentials and try again.";
+            }
+        }
+
+        const button = document.getElementById("button-submit");
+        button.onclick = () => {
+            const email = document.getElementById("input-email").value;
+            const password = document.getElementById("input-password").value;
+
+            const url = "http://localhost:8080/auth/login";
+            sendData(url, email, password);
+        };
+
+        async function sendData(url, email, password) {
+            const res = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            });
+
+            if (res.status !== 200) {
+                window.location.replace(`login.html?status=${res.status}`);
+                return;
+            }
+
+            const body = await res.json();
+            console.log(body);
+            localStorage.setItem('jwtToken', body.jwtToken);
+            window.location.replace(`chats.html`);
+        }
+    </script>
+</body>
+
+</html>

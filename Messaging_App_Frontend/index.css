@@ -1,0 +1,481 @@
+:root {
+    --sidebar-width: 300px;
+    --accent: #2b7cff;
+    --muted: #f4f6fb;
+}
+
+* {
+    box-sizing: border-box
+}
+
+body,
+html {
+    height: 100%;
+    margin: 0;
+    font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
+    background: var(--muted)
+}
+
+.app {
+    display: flex;
+    height: 100vh
+}
+
+.sidebar {
+    width: var(--sidebar-width);
+    background: white;
+    border-right: 1px solid #e6e9ef;
+    display: flex;
+    flex-direction: column
+}
+
+.sidebar-header {
+    padding: 16px;
+    border-bottom: 1px solid #f0f2f6
+}
+
+.sidebar-header h2 {
+    margin: 0 0 8px;
+    font-size: 18px;
+    color: #222
+}
+
+.sidebar-header input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #e0e4eb;
+    border-radius: 6px
+}
+
+.contacts-list {
+    list-style: none;
+    margin: 0;
+    padding: 8px;
+    overflow: auto
+}
+
+.contact {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+}
+
+.contact-status {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-left: auto;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.contact-status.online {
+    background: #16a34a;
+}
+
+.contact-status.offline {
+    background: #9ca3af;
+}
+
+.contact:hover {
+    background: #fbfcff
+}
+
+.contact.active {
+    background: linear-gradient(90deg, rgba(43, 124, 255, 0.08), rgba(43, 124, 255, 0.04));
+    border-left: 3px solid var(--accent);
+    padding-left: 7px
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #dde7ff;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600
+}
+
+.contact .meta {
+    display: flex;
+    flex-direction: column
+}
+
+.contact .name {
+    font-weight: 600
+}
+
+.contact .last {
+    font-size: 12px;
+    color: #677090
+}
+
+.unread-badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: #ef4444;
+    color: white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#addContactButton {
+    margin: 12px auto 0;
+    width: 50%;
+    height: 45px;
+    align-self: center;
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer
+}
+
+.sidebar-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-body.empty {
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar-empty-state {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 24px;
+}
+
+.no-contacts-message {
+    width: 100%;
+    text-align: center;
+    color: #677090;
+}
+
+.no-contacts-message p {
+    margin: 0;
+    font-size: 14px;
+}
+.chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column
+}
+
+.chat-header {
+    padding: 16px;
+    border-bottom: 1px solid #eef1f7;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.chat-header-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.chat-header-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chat-header-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: white;
+    background: #ef4444;
+    padding: 0 8px;
+    height: 22px;
+    border-radius: 12px;
+    min-width: 38px;
+}
+
+.chat-header-status {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.chat-header-status.online {
+    color: #16a34a;
+}
+
+.chat-header-status.offline {
+    color: #6b7280;
+}
+
+.messages {
+    flex: 1;
+    padding: 18px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    background: linear-gradient(#f7f9fc, #f7f9fc)
+}
+
+.messages.empty {
+    justify-content: center;
+    align-items: center;
+}
+
+.no-conversation-message {
+    display: none;
+    width: 100%;
+    color: #677090;
+    text-align: center;
+}
+
+.no-conversation-message p {
+    margin: 0;
+    font-size: 16px;
+    max-width: 380px;
+}
+
+.msg {
+    width: fit-content;
+    max-width: 70%;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 1px 0 rgba(16, 24, 40, 0.03);
+    word-wrap: break-word;
+    margin-bottom: 2px;
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.msg-text {
+    white-space: pre-wrap;
+}
+
+.msg-time {
+    margin-top: 6px;
+    font-size: 11px;
+    opacity: 0.75;
+    color: #6b7280;
+    text-align: right;
+}
+
+.msg.sent .msg-time {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.messages .msg:last-child {
+    margin-bottom: 0;
+}
+
+.msg.sent {
+    margin-left: auto;
+    background: linear-gradient(90deg, var(--accent), #1f6fe8);
+    color: white
+}
+
+.msg.received {
+    margin-right: auto;
+    background: white
+}
+
+.composer {
+    display: flex;
+    padding: 12px;
+    border-top: 1px solid #eef1f7;
+    background: white
+}
+
+.composer input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #e6e9ef;
+    border-radius: 8px;
+    margin-right: 8px
+}
+
+.composer button {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(15, 23, 42, 0.25);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 250ms ease;
+    z-index: 20;
+}
+
+.modal-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-panel {
+    position: relative;
+    width: min(460px, calc(100% - 40px));
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 24px 80px rgba(15, 23, 42, 0.16);
+    padding: 28px;
+    transform: translateY(20px) scale(0.96);
+    opacity: 0;
+    transition: transform 250ms ease, opacity 250ms ease;
+}
+
+.modal-overlay.open .modal-panel {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+.modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 50%;
+    background: #f4f6fb;
+    color: #4b5563;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.modal-panel h3 {
+    margin: 0 0 8px;
+    font-size: 20px;
+    color: #111827;
+}
+
+.modal-panel p {
+    margin: 0 0 20px;
+    color: #6b7280;
+    line-height: 1.5;
+}
+
+.modal-error {
+    background: #fee2e2;
+    border: 1px solid #fca5a5;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    color: #991b1b;
+    font-size: 13px;
+    line-height: 1.3;
+}
+
+.modal-panel label {
+    display: block;
+    margin-bottom: 8px;
+    color: #374151;
+    font-size: 14px;
+}
+
+.modal-panel input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.modal-actions button {
+    border: none;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.modal-actions button.secondary {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.modal-actions button:not(.secondary) {
+    background: var(--accent);
+    color: white;
+}
+
+@media (max-width:700px) {
+    .sidebar {
+        width: 220px
+    }
+
+    .contact .last {
+        display: none
+    }
+}
+
+.no-contacts-message {
+    padding: 24px 16px;
+    text-align: center;
+    color: #677090;
+}
+
+.no-contacts-message p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.no-conversation-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    margin: auto 0;
+    width: 100%;
+    padding: 0 16px;
+    color: #677090;
+    text-align: center;
+}
+
+.no-conversation-message p {
+    margin: 0;
+    font-size: 16px;
+    max-width: 380px;
+}

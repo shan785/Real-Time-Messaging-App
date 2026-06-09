@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messaging App</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div class="app">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Contacts</h2>
+                <input id="search" type="text" placeholder="Search contacts...">
+            </div>
+            <div id="sidebarBody" class="sidebar-body">
+                <ul id="contacts" class="contacts-list"></ul>
+                <button id="addContactButton">Add Contact</button>
+                <div id="sidebarEmptyState" class="sidebar-empty-state" style="display: none;">
+                    <div id="noContactsMessage" class="no-contacts-message">
+                        <p>No contacts yet. Click "Add Contact" to get started!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-overlay" id="contactModal" aria-hidden="true">
+                <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle">
+                    <button class="modal-close" id="closeContactModal" aria-label="Close add contact form">×</button>
+                    <h3 id="contactModalTitle">Add new contact</h3>
+                    <p>Enter the email address of the user you want to add to your contacts.</p>
+                    <div id="contactModalError" class="modal-error" style="display: none;" role="alert"></div>
+                    <form id="addContactForm">
+                        <label for="contactEmail">Email address</label>
+                        <input id="contactEmail" type="email" placeholder="name@example.com" required>
+                        <div class="modal-actions">
+                            <button type="button" class="secondary" id="cancelContactButton">Cancel</button>
+                            <button type="submit">Add contact</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </aside>
+
+        <main class="chat-area">
+            <div id="chat-header" class="chat-header">
+                <div id="chatHeaderName" class="chat-header-name">Select a contact</div>
+                <div id="chatHeaderMeta" class="chat-header-meta">
+                    <div id="chatHeaderStatus" class="chat-header-status offline">Offline</div>
+                </div>
+            </div>
+            <div id="messages" class="messages">
+                <div id="noConversationMessage" class="no-conversation-message" style="display: none;">
+                    <p>No conversation yet. Start chatting!</p>
+                </div>
+            </div>
+            <form id="composer" class="composer">
+                <input id="messageInput" type="text" placeholder="Type a message...">
+                <button id="sendBtn" type="submit">Send</button>
+            </form>
+        </main>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+
+</html>
